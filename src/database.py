@@ -46,6 +46,8 @@ class Odds(Base):
     id = Column(Integer, primary_key=True)
     match_id = Column(Integer, ForeignKey('matches.id'), nullable=False)
     bookmaker = Column(String(100), nullable=False)
+    bookmaker_display_name = Column(String(200))  # Display name (e.g., "Bet365", "William Hill")
+    bookmaker_url = Column(String(500))  # Direct URL to betting page
     market_type = Column(String(100), nullable=False)  # points, corners, aces, etc.
     player_name = Column(String(200))  # For player props
     line = Column(Float)  # Over/under line
@@ -92,6 +94,8 @@ class Pick(Base):
     line = Column(Float, nullable=False)
     odds = Column(Float, nullable=False)
     bookmaker = Column(String(100), nullable=False)
+    bookmaker_display_name = Column(String(200))  # Display name
+    betting_url = Column(String(500))  # Direct URL to place the bet
 
     # EV Calculations
     estimated_prob = Column(Float, nullable=False)

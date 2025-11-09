@@ -9,6 +9,13 @@ bookmakers:
     sports: ["basketball", "soccer", "tennis"]
     api_available: true
     notes: "Sharp book, use for CLV comparison"
+    url: "https://www.pinnacle.com/en/"
+    betting_urls:
+      basketball: "https://www.pinnacle.com/en/basketball"
+      basketball_nba: "https://www.pinnacle.com/en/basketball/nba"
+      soccer: "https://www.pinnacle.com/en/soccer"
+      tennis: "https://www.pinnacle.com/en/tennis"
+    the_odds_api_key: "pinnacle"
 
   bet365:
     name: "Bet365"
@@ -17,6 +24,14 @@ bookmakers:
     regions: ["eu", "es"]
     sports: ["basketball", "soccer", "tennis"]
     api_available: false
+    url: "https://www.bet365.es/"
+    betting_urls:
+      basketball: "https://www.bet365.es/#/AC/B3/C20604387/D48/E174/F48/"
+      basketball_nba: "https://www.bet365.es/#/AC/B3/C20604387/D48/E174/F48/"
+      soccer: "https://www.bet365.es/#/AC/B1/C1/D13/E169/F2/"
+      tennis: "https://www.bet365.es/#/AC/B5/C1/D13/E168/F2/"
+    the_odds_api_key: "bet365"
+    notes: "Use deep links for specific events"
 
   betfair:
     name: "Betfair Exchange"
@@ -26,6 +41,13 @@ bookmakers:
     sports: ["basketball", "soccer", "tennis"]
     api_available: true
     commission: 0.05  # 5% on winnings
+    url: "https://www.betfair.com/exchange/plus/"
+    betting_urls:
+      basketball: "https://www.betfair.com/exchange/plus/basketball"
+      basketball_nba: "https://www.betfair.com/exchange/plus/basketball/nba"
+      soccer: "https://www.betfair.com/exchange/plus/football"
+      tennis: "https://www.betfair.com/exchange/plus/tennis"
+    the_odds_api_key: "betfair_ex_eu"
 
   william_hill:
     name: "William Hill"
@@ -33,6 +55,13 @@ bookmakers:
     priority: 3
     regions: ["eu", "es"]
     sports: ["basketball", "soccer", "tennis"]
+    url: "https://sports.williamhill.es/"
+    betting_urls:
+      basketball: "https://sports.williamhill.es/betting/es-es/baloncesto"
+      basketball_nba: "https://sports.williamhill.es/betting/es-es/baloncesto/competiciones/NBA"
+      soccer: "https://sports.williamhill.es/betting/es-es/futbol"
+      tennis: "https://sports.williamhill.es/betting/es-es/tenis"
+    the_odds_api_key: "williamhill"
 
   codere:
     name: "Codere"
@@ -41,6 +70,14 @@ bookmakers:
     regions: ["es"]
     sports: ["basketball", "soccer", "tennis"]
     notes: "Spanish licensed"
+    url: "https://www.codere.es/deportes"
+    betting_urls:
+      basketball: "https://www.codere.es/deportes/baloncesto"
+      basketball_nba: "https://www.codere.es/deportes/baloncesto/nba"
+      soccer: "https://www.codere.es/deportes/futbol"
+      soccer_laliga: "https://www.codere.es/deportes/futbol/espana/laliga"
+      tennis: "https://www.codere.es/deportes/tenis"
+    the_odds_api_key: "codere"
 
   bwin:
     name: "Bwin"
@@ -48,6 +85,42 @@ bookmakers:
     priority: 3
     regions: ["eu", "es"]
     sports: ["basketball", "soccer", "tennis"]
+    url: "https://sports.bwin.es/es/sports"
+    betting_urls:
+      basketball: "https://sports.bwin.es/es/sports/baloncesto-7"
+      basketball_nba: "https://sports.bwin.es/es/sports/baloncesto-7/apuestas/estados-unidos/nba-42648"
+      soccer: "https://sports.bwin.es/es/sports/f%C3%BAtbol-4"
+      soccer_laliga: "https://sports.bwin.es/es/sports/f%C3%BAtbol-4/apuestas/espa%C3%B1a/laliga-ea-sports-5361"
+      tennis: "https://sports.bwin.es/es/sports/tenis-5"
+    the_odds_api_key: "bwin"
+
+  # Additional Spanish Bookmakers
+  marathonbet:
+    name: "Marathon Bet"
+    type: "bookmaker"
+    priority: 4
+    regions: ["eu", "es"]
+    sports: ["basketball", "soccer", "tennis"]
+    url: "https://www.marathonbet.es/"
+    betting_urls:
+      basketball: "https://www.marathonbet.es/es/betting/Basketball.htm"
+      soccer: "https://www.marathonbet.es/es/betting/Football.htm"
+      tennis: "https://www.marathonbet.es/es/betting/Tennis.htm"
+    the_odds_api_key: "marathonbet"
+
+  unibet:
+    name: "Unibet"
+    type: "bookmaker"
+    priority: 4
+    regions: ["eu"]
+    sports: ["basketball", "soccer", "tennis"]
+    url: "https://www.unibet.es/"
+    betting_urls:
+      basketball: "https://www.unibet.es/apuestas/baloncesto"
+      basketball_nba: "https://www.unibet.es/apuestas/baloncesto/nba"
+      soccer: "https://www.unibet.es/apuestas/futbol"
+      tennis: "https://www.unibet.es/apuestas/tenis"
+    the_odds_api_key: "unibet"
 
 # Market Mappings
 market_mappings:
