@@ -46,19 +46,55 @@ AI-powered sports betting analytics system for prop bets across NBA, ACB, La Lig
 
 ## 🚀 Quick Start
 
-### 1. Installation
+### Method 1: Automatic Installation (Recommended)
+
+#### Linux/Mac:
+```bash
+git clone https://github.com/your-org/apuestas-bot.git
+cd apuestas-bot
+chmod +x install.sh
+./install.sh
+```
+
+#### Windows:
+```cmd
+git clone https://github.com/your-org/apuestas-bot.git
+cd apuestas-bot
+install.bat
+```
+
+#### Cross-platform (Python 3):
+```bash
+git clone https://github.com/your-org/apuestas-bot.git
+cd apuestas-bot
+python3 install.py
+```
+
+**The installer will:**
+- ✅ Detect Python 3.10+
+- ✅ Create virtual environment
+- ✅ Install all dependencies
+- ✅ Setup .env file
+- ✅ Initialize database
+- ✅ Verify installation
+
+### Method 2: Manual Installation
 
 ```bash
 # Clone the repository
 git clone https://github.com/your-org/apuestas-bot.git
 cd apuestas-bot
 
-# Create virtual environment
-python -m venv venv
+# Create virtual environment (Python 3)
+python3 -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
+pip install --upgrade pip
 pip install -r requirements.txt
+
+# Optional: ML libraries
+pip install xgboost lightgbm
 ```
 
 ### 2. Configuration
@@ -79,19 +115,50 @@ nano .env
 - Email credentials (for alerts)
 - Betfair API credentials (for exchange integration)
 
-### 3. Initialize Database
+### 2. Get API Key (Required)
+
+1. Visit https://the-odds-api.com/
+2. Sign up (500 requests/month FREE)
+3. Copy API key to `.env` file
+
+### 3. Download Historical Data (Optional)
 
 ```bash
-python -c "from src.database import init_db; init_db()"
+# Quick mode (last 10 games per player)
+python3 scripts/populate_historical_data.py --quick
+
+# Full mode (complete seasons)
+python3 scripts/populate_historical_data.py --seasons 2023-24 2024-25
 ```
 
-### 4. Run Dashboard
+### 4. Calibrate Models
+
+```bash
+python3 scripts/calibrate_models.py
+```
+
+### 5. Launch Dashboard
 
 ```bash
 streamlit run app.py
 ```
 
 The dashboard will open at `http://localhost:8501`
+
+---
+
+## 📋 System Requirements
+
+**Required:**
+- Python 3.10 or higher
+- pip (latest version)
+- 2GB RAM (4GB recommended)
+- 1GB disk space
+
+**Supported Platforms:**
+- ✅ Linux (Ubuntu, Debian, etc.)
+- ✅ macOS (10.14+)
+- ✅ Windows (10/11)
 
 ## 📁 Project Structure
 
