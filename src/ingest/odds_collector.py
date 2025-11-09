@@ -21,7 +21,10 @@ class TheOddsAPICollector:
         'euroleague': 'basketball_euroleague',
         'laliga': 'soccer_spain_la_liga',
         'atp': 'tennis_atp',
-        'wta': 'tennis_wta'
+        'wta': 'tennis_wta',
+        # Aliases
+        'basketball_euroleague': 'basketball_euroleague',
+        'basketball_nba': 'basketball_nba'
     }
 
     def __init__(self, api_key: str):

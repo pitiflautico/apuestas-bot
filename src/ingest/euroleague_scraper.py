@@ -1,4 +1,4 @@
-"""ACB (Spanish Basketball League) data scraper"""
+"""EuroLeague Basketball data scraper"""
 
 import logging
 import requests
@@ -12,14 +12,14 @@ import cloudscraper
 logger = logging.getLogger(__name__)
 
 
-class ACBScraper:
-    """Scraper for ACB (Liga Endesa) basketball data"""
+class EuroLeagueScraper:
+    """Scraper for EuroLeague basketball data"""
 
-    BASE_URL = "http://www.acb.com"
-    API_URL = "http://www.acb.com/fichas"
+    BASE_URL = "https://www.euroleaguebasketball.net"
+    API_URL = "https://api-live.euroleague.net"
 
     def __init__(self):
-        """Initialize ACB scraper"""
+        """Initialize EuroLeague scraper"""
         self.scraper = cloudscraper.create_scraper()
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
@@ -31,19 +31,19 @@ class ACBScraper:
         season: str = "2024",
         last_n_games: int = 10
     ) -> pd.DataFrame:
-        """Get player game log from ACB
+        """Get player game log from EuroLeague
 
         Args:
-            player_id: ACB player ID
+            player_id: EuroLeague player ID
             season: Season (e.g., "2024")
             last_n_games: Number of recent games
 
         Returns:
             DataFrame with game log
         """
-        # ACB website structure - this is a placeholder
-        # Would need to inspect actual ACB website API/structure
-        logger.warning("ACB scraping requires website structure analysis")
+        # EuroLeague API structure - this is a placeholder
+        # Would need to inspect actual EuroLeague API structure
+        logger.warning("EuroLeague scraping requires API analysis")
 
         # Return empty DataFrame for now
         return pd.DataFrame()
@@ -56,24 +56,24 @@ class ACBScraper:
         """Get team schedule
 
         Args:
-            team_code: Team code (e.g., 'RMA' for Real Madrid)
+            team_code: Team code (e.g., 'MAD' for Real Madrid)
             season: Season
 
         Returns:
             List of scheduled games
         """
-        logger.warning("ACB team schedule requires API analysis")
+        logger.warning("EuroLeague team schedule requires API analysis")
         return []
 
 
-class SofaScoreACBScraper:
-    """Scraper for ACB data via SofaScore"""
+class SofaScoreEuroLeagueScraper:
+    """Scraper for EuroLeague data via SofaScore"""
 
     BASE_URL = "https://api.sofascore.com/api/v1"
-    ACB_LEAGUE_ID = 359  # SofaScore ID for ACB
+    EUROLEAGUE_ID = 132  # SofaScore ID for EuroLeague
 
     def __init__(self):
-        """Initialize SofaScore ACB scraper"""
+        """Initialize SofaScore EuroLeague scraper"""
         self.session = cloudscraper.create_scraper()
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
@@ -88,7 +88,7 @@ class SofaScoreACBScraper:
         Returns:
             List of teams with standings
         """
-        url = f"{self.BASE_URL}/unique-tournament/{self.ACB_LEAGUE_ID}/season/{season_id}/standings/total"
+        url = f"{self.BASE_URL}/unique-tournament/{self.EUROLEAGUE_ID}/season/{season_id}/standings/total"
 
         try:
             response = self.session.get(url, headers=self.headers)
@@ -96,11 +96,11 @@ class SofaScoreACBScraper:
             data = response.json()
 
             standings = data.get('standings', [])
-            logger.info(f"Retrieved standings for ACB")
+            logger.info(f"Retrieved standings for EuroLeague")
             return standings
 
         except Exception as e:
-            logger.error(f"Error fetching ACB standings: {e}")
+            logger.error(f"Error fetching EuroLeague standings: {e}")
             return []
 
     def get_team_matches(
@@ -127,11 +127,11 @@ class SofaScoreACBScraper:
             data = response.json()
 
             matches = data.get('events', [])
-            logger.info(f"Retrieved {len(matches)} ACB matches for team {team_id}")
+            logger.info(f"Retrieved {len(matches)} EuroLeague matches for team {team_id}")
             return matches
 
         except Exception as e:
-            logger.error(f"Error fetching ACB team matches: {e}")
+            logger.error(f"Error fetching EuroLeague team matches: {e}")
             return []
 
     def get_match_statistics(self, match_id: int) -> Dict:
@@ -161,7 +161,7 @@ class SofaScoreACBScraper:
             return stats
 
         except Exception as e:
-            logger.error(f"Error fetching ACB match statistics: {e}")
+            logger.error(f"Error fetching EuroLeague match statistics: {e}")
             return {}
 
     def get_player_statistics(
@@ -186,16 +186,16 @@ class SofaScoreACBScraper:
             return response.json()
 
         except Exception as e:
-            logger.error(f"Error fetching ACB player statistics: {e}")
+            logger.error(f"Error fetching EuroLeague player statistics: {e}")
             return {}
 
 
-class ACBFeatureExtractor:
-    """Extract features for ACB props modeling"""
+class EuroLeagueFeatureExtractor:
+    """Extract features for EuroLeague props modeling"""
 
     def __init__(self):
         """Initialize feature extractor"""
-        self.sofascore = SofaScoreACBScraper()
+        self.sofascore = SofaScoreEuroLeagueScraper()
 
     def extract_player_features(
         self,
@@ -205,7 +205,7 @@ class ACBFeatureExtractor:
         home_away: str,
         season_id: int
     ) -> Dict:
-        """Extract comprehensive features for ACB player
+        """Extract comprehensive features for EuroLeague player
 
         Args:
             player_id: Player ID
@@ -282,7 +282,7 @@ class ACBFeatureExtractor:
 
         avg_total = sum(total_points) / len(total_points) if total_points else 160
 
-        # Rough pace estimate (ACB average is around 80 possessions)
+        # Rough pace estimate (EuroLeague average is around 75-80 possessions)
         pace = (avg_total / 2.0) * 0.5  # Very rough estimate
 
         return pace
