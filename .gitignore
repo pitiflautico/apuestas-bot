@@ -1,0 +1,76 @@
+# Sports Props Bot - Git Ignore
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Data
+data/raw/*
+data/curated/*
+data/results/*
+*.db
+*.sqlite
+*.sqlite3
+*.csv
+*.json
+*.parquet
+
+# Logs
+logs/*
+*.log
+
+# API Keys & Secrets
+config/secrets.yaml
+config/*.secret
+credentials.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb
+
+# Cache
+.cache/
+.pytest_cache/
+
+# Backup files
+*.bak
+*.backup

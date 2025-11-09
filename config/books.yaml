@@ -1,0 +1,91 @@
+# Bookmakers & Exchanges Configuration
+
+bookmakers:
+  pinnacle:
+    name: "Pinnacle"
+    type: "bookmaker"
+    priority: 1  # Use as reference (sharp)
+    regions: ["eu"]
+    sports: ["basketball", "soccer", "tennis"]
+    api_available: true
+    notes: "Sharp book, use for CLV comparison"
+
+  bet365:
+    name: "Bet365"
+    type: "bookmaker"
+    priority: 2
+    regions: ["eu", "es"]
+    sports: ["basketball", "soccer", "tennis"]
+    api_available: false
+
+  betfair:
+    name: "Betfair Exchange"
+    type: "exchange"
+    priority: 1
+    regions: ["eu"]
+    sports: ["basketball", "soccer", "tennis"]
+    api_available: true
+    commission: 0.05  # 5% on winnings
+
+  william_hill:
+    name: "William Hill"
+    type: "bookmaker"
+    priority: 3
+    regions: ["eu", "es"]
+    sports: ["basketball", "soccer", "tennis"]
+
+  codere:
+    name: "Codere"
+    type: "bookmaker"
+    priority: 3
+    regions: ["es"]
+    sports: ["basketball", "soccer", "tennis"]
+    notes: "Spanish licensed"
+
+  bwin:
+    name: "Bwin"
+    type: "bookmaker"
+    priority: 3
+    regions: ["eu", "es"]
+    sports: ["basketball", "soccer", "tennis"]
+
+# Market Mappings
+market_mappings:
+  basketball:
+    points:
+      the_odds_api: "player_points"
+      betfair: "PLAYER_POINTS"
+
+    rebounds:
+      the_odds_api: "player_rebounds"
+      betfair: "PLAYER_REBOUNDS"
+
+    assists:
+      the_odds_api: "player_assists"
+      betfair: "PLAYER_ASSISTS"
+
+    pra:
+      the_odds_api: "player_points_rebounds_assists"
+      betfair: "PLAYER_PRA"
+
+  soccer:
+    corners:
+      the_odds_api: "total_corners"
+      betfair: "CORNERS"
+
+    shots:
+      the_odds_api: "total_shots"
+      betfair: "SHOTS"
+
+    cards:
+      the_odds_api: "total_cards"
+      betfair: "CARDS"
+
+  tennis:
+    aces:
+      the_odds_api: "player_aces"
+      betfair: "PLAYER_ACES"
+
+    games:
+      the_odds_api: "total_games"
+      betfair: "TOTAL_GAMES"

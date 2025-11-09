@@ -1,0 +1,138 @@
+# Sports Props Intelligence Bot - Configuration
+# Version: 1.0
+
+# General Settings
+general:
+  timezone: "Europe/Madrid"
+  log_level: "INFO"
+  log_file: "logs/sports_bot.log"
+
+# Supported Sports & Leagues
+sports:
+  basketball:
+    nba:
+      enabled: true
+      priority: high
+      markets: ["points", "rebounds", "assists", "threes", "pra", "blocks", "steals"]
+    acb:
+      enabled: true
+      priority: medium
+      markets: ["points", "rebounds", "assists", "threes", "pra"]
+
+  soccer:
+    laliga:
+      enabled: true
+      priority: high
+      markets: ["corners", "shots", "shots_on_target", "cards", "fouls", "offsides"]
+
+  tennis:
+    atp:
+      enabled: true
+      priority: medium
+      markets: ["aces", "double_faults", "games", "service_points_won"]
+    wta:
+      enabled: true
+      priority: medium
+      markets: ["aces", "double_faults", "games", "service_points_won"]
+
+# Data Sources
+data_sources:
+  odds:
+    the_odds_api:
+      enabled: true
+      api_key: "${THE_ODDS_API_KEY}"
+      rate_limit: 500  # requests per month
+      regions: ["eu", "us"]
+
+  stats:
+    nba:
+      api_url: "https://stats.nba.com/stats"
+      rate_limit: 60  # requests per minute
+
+    fbref:
+      base_url: "https://fbref.com"
+      rate_limit: 20
+
+    sofascore:
+      api_url: "https://api.sofascore.com/api/v1"
+      rate_limit: 30
+
+    flashscore:
+      base_url: "https://www.flashscore.com"
+      rate_limit: 20
+
+# Feature Engineering
+features:
+  rolling_windows: [5, 10, 20]  # games
+  min_sample_size: 5
+  outlier_threshold: 3.0  # std deviations
+
+# Modeling
+models:
+  poisson:
+    alpha: 0.05  # regularization
+
+  bayesian:
+    n_samples: 2000
+    n_warmup: 1000
+
+  monte_carlo:
+    n_simulations: 10000
+
+# Pricing & EV
+pricing:
+  min_ev_threshold: 0.03  # 3% minimum edge
+  max_vig: 0.10  # maximum acceptable vigorish
+  min_odds: 1.50
+  max_odds: 5.00
+  confidence_levels: [0.90, 0.95, 0.99]
+
+# Bankroll Management
+bankroll:
+  strategy: "fractional_kelly"
+  kelly_fraction: 0.25
+  min_bet: 10
+  max_bet: 100
+  max_exposure_daily: 500
+  max_exposure_per_market: 100
+  max_correlated_picks: 3
+
+# Risk Management
+risk:
+  max_drawdown_weekly_pct: 15.0
+  auto_pause_on_dd: true
+  min_picks_for_stats: 30
+
+# Backtesting
+backtesting:
+  walk_forward_days: 90
+  test_period_days: 30
+  min_historical_days: 180
+
+# Dashboard
+dashboard:
+  host: "0.0.0.0"
+  port: 8501
+  refresh_interval: 300  # seconds
+  theme: "dark"
+
+# Notifications
+notifications:
+  telegram:
+    enabled: false
+    bot_token: "${TELEGRAM_BOT_TOKEN}"
+    chat_id: "${TELEGRAM_CHAT_ID}"
+
+  email:
+    enabled: false
+    smtp_server: "smtp.gmail.com"
+    smtp_port: 587
+    from_email: "${EMAIL_FROM}"
+    to_email: "${EMAIL_TO}"
+    password: "${EMAIL_PASSWORD}"
+
+# Execution
+execution:
+  mode: "recommend_only"  # recommend_only | auto_execute
+  dry_run: true
+  pre_match_hours: 2  # stop betting X hours before match
