@@ -1,0 +1,47 @@
+accuracy_metrics:
+  mae: 4.5473676224158375
+  r2: -0.1385336910372008
+  rmse: 5.5695937996078735
+calibrated_factors:
+  home_away_away: !!python/object/apply:numpy._core.multiarray.scalar
+  - &id001 !!python/object/apply:numpy.dtype
+    args:
+    - f8
+    - false
+    - true
+    state: !!python/tuple
+    - 3
+    - <
+    - null
+    - null
+    - null
+    - -1
+    - -1
+    - 0
+  - !!binary |
+    8l03YssE8D8=
+  home_away_home: !!python/object/apply:numpy._core.multiarray.scalar
+  - *id001
+  - !!binary |
+    63TGTNz27z8=
+  minutes: 1.0
+  opponent_defense: 1.0
+  pace: 1.0
+  trend: 0.1
+optimal_factors:
+  home_away: !!python/object/apply:numpy._core.multiarray.scalar
+  - *id001
+  - !!binary |
+    SWycmZQD8D8=
+  opponent_defense: !!python/object/apply:numpy._core.multiarray.scalar
+  - *id001
+  - !!binary |
+    ulwAyPjS8D8=
+  pace: !!python/object/apply:numpy._core.multiarray.scalar
+  - *id001
+  - !!binary |
+    fhWBAMBz8D8=
+validation_metrics:
+  brier_score: 0.2781680537564647
+  calibration_error: 0.27924966406126317
+  log_loss: 0.7591956588195844

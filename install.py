@@ -8,6 +8,7 @@ import sys
 import os
 import subprocess
 import platform
+import argparse
 from pathlib import Path
 
 
@@ -101,11 +102,12 @@ def upgrade_pip():
         print_success("pip upgraded")
         return True
     except subprocess.CalledProcessError as e:
-        print_error(f"Failed to upgrade pip: {e}")
-        return False
+        print_info(f"Could not upgrade pip (continuing anyway): {e}")
+        # This is not critical, continue installation
+        return True
 
 
-def create_venv():
+def create_venv(non_interactive=False):
     """Create virtual environment"""
     print("\n🌍 Creating virtual environment...")
 
@@ -113,15 +115,21 @@ def create_venv():
 
     if venv_path.exists():
         print_info("Virtual environment already exists")
-        response = input("   Recreate it? (y/N): ").lower()
 
-        if response == 'y':
-            import shutil
-            shutil.rmtree(venv_path)
-            subprocess.run([sys.executable, "-m", "venv", "venv"], check=True)
-            print_success("Virtual environment recreated")
+        if non_interactive:
+            print_info("Using existing virtual environment (non-interactive mode)")
         else:
-            print_info("Using existing virtual environment")
+            try:
+                response = input("   Recreate it? (y/N): ").lower()
+                if response == 'y':
+                    import shutil
+                    shutil.rmtree(venv_path)
+                    subprocess.run([sys.executable, "-m", "venv", "venv"], check=True)
+                    print_success("Virtual environment recreated")
+                else:
+                    print_info("Using existing virtual environment")
+            except EOFError:
+                print_info("Using existing virtual environment (no input available)")
     else:
         subprocess.run([sys.executable, "-m", "venv", "venv"], check=True)
         print_success("Virtual environment created")
@@ -137,7 +145,7 @@ def get_venv_python():
         return Path("venv") / "bin" / "python"
 
 
-def install_dependencies():
+def install_dependencies(non_interactive=False, install_ml=False):
     """Install Python dependencies"""
     print("\n📦 Installing dependencies...")
     print("   This may take a few minutes...\n")
@@ -159,9 +167,17 @@ def install_dependencies():
     print_success("Core dependencies installed")
 
     # Ask about ML libraries
-    response = input("\n   Install optional ML libraries (XGBoost, LightGBM)? (y/N): ").lower()
+    should_install_ml = install_ml
 
-    if response == 'y':
+    if not non_interactive and not install_ml:
+        try:
+            response = input("\n   Install optional ML libraries (XGBoost, LightGBM)? (y/N): ").lower()
+            should_install_ml = response == 'y'
+        except EOFError:
+            print_info("Skipping ML libraries (no input available)")
+            should_install_ml = False
+
+    if should_install_ml:
         print("   Installing ML libraries...")
         subprocess.run(
             [str(venv_python), "-m", "pip", "install", "xgboost", "lightgbm"],
@@ -197,7 +213,7 @@ def create_directories():
     return True
 
 
-def setup_env_file():
+def setup_env_file(non_interactive=False):
     """Setup .env file"""
     print("\n⚙️ Setting up environment file...")
 
@@ -206,12 +222,20 @@ def setup_env_file():
 
     if env_path.exists():
         print_info(".env file already exists")
-        response = input("   Overwrite it? (y/N): ").lower()
 
-        if response == 'y':
-            import shutil
-            shutil.copy(env_example, env_path)
-            print_success(".env file created from template")
+        if non_interactive:
+            print_info("Keeping existing .env file (non-interactive mode)")
+        else:
+            try:
+                response = input("   Overwrite it? (y/N): ").lower()
+                if response == 'y':
+                    import shutil
+                    shutil.copy(env_example, env_path)
+                    print_success(".env file created from template")
+                else:
+                    print_info("Keeping existing .env file")
+            except EOFError:
+                print_info("Keeping existing .env file (no input available)")
     else:
         import shutil
         shutil.copy(env_example, env_path)
@@ -315,10 +339,30 @@ def print_next_steps():
 
 def main():
     """Main installer function"""
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(
+        description='Sports Props Intelligence Bot - Installer'
+    )
+    parser.add_argument(
+        '-y', '--yes',
+        action='store_true',
+        help='Non-interactive mode - use default answers'
+    )
+    parser.add_argument(
+        '--ml',
+        action='store_true',
+        help='Install optional ML libraries (XGBoost, LightGBM)'
+    )
+
+    args = parser.parse_args()
+
     print_header("Sports Props Intelligence Bot - Installer")
 
     print(f"Platform: {platform.system()}")
     print(f"Architecture: {platform.machine()}\n")
+
+    if args.yes:
+        print_info("Running in non-interactive mode\n")
 
     # Check Python version
     if not check_python_version():
@@ -332,18 +376,18 @@ def main():
     upgrade_pip()
 
     # Create virtual environment
-    if not create_venv():
+    if not create_venv(non_interactive=args.yes):
         sys.exit(1)
 
     # Install dependencies
-    if not install_dependencies():
+    if not install_dependencies(non_interactive=args.yes, install_ml=args.ml):
         sys.exit(1)
 
     # Create directories
     create_directories()
 
     # Setup .env
-    setup_env_file()
+    setup_env_file(non_interactive=args.yes)
 
     # Initialize database
     initialize_database()

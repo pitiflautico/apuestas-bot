@@ -118,9 +118,9 @@ def render_today_tab(filters: Dict):
             return 'background-color: #FFFFE0'
         return ''
 
-    styled_df = df.style.applymap(highlight_ev, subset=['EV %'])
+    styled_df = df.style.map(highlight_ev, subset=['EV %'])
 
-    st.dataframe(styled_df, use_container_width=True, height=400)
+    st.dataframe(styled_df, width='stretch', height=400)
 
     # Metrics
     col1, col2, col3, col4 = st.columns(4)
@@ -141,7 +141,7 @@ def render_today_tab(filters: Dict):
     st.subheader("EV Distribution")
     fig = px.bar(df, x='Player/Team', y='EV %', color='Market',
                  title="Expected Value by Pick")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch', key='today_ev_chart')
 
 
 def render_matches_tab(filters: Dict):
@@ -180,7 +180,7 @@ def render_matches_tab(filters: Dict):
                 y = [abs(i - 27) for i in x]  # Mock distribution
                 fig = go.Figure(data=[go.Bar(x=x, y=y)])
                 fig.update_layout(title="LeBron Points Distribution", height=300)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch', key=f'match_dist_{match["match"]}')
 
 
 def render_markets_tab():
@@ -198,17 +198,17 @@ def render_markets_tab():
     }
 
     df = pd.DataFrame(market_data)
-    st.dataframe(df, use_container_width=True)
+    st.dataframe(df, width='stretch')
 
     # Line movement chart
     st.subheader("Line Movement - LeBron James Points")
 
-    timestamps = pd.date_range(end=datetime.now(), periods=24, freq='H')
+    timestamps = pd.date_range(end=datetime.now(), periods=24, freq='h')
     odds = [1.95 + (i % 5) * 0.02 for i in range(24)]
 
     fig = px.line(x=timestamps, y=odds, title="Odds Movement (Last 24h)")
     fig.update_layout(xaxis_title="Time", yaxis_title="Odds")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch', key='market_line_movement')
 
 
 def render_historical_tab():
@@ -236,14 +236,14 @@ def render_historical_tab():
     # P&L Chart
     st.subheader("Cumulative P&L")
 
-    dates = pd.date_range(end=datetime.now(), periods=30, freq='D')
+    dates = pd.date_range(end=datetime.now(), periods=30, freq='d')
     cumulative_pnl = [0]
     for i in range(1, 30):
         cumulative_pnl.append(cumulative_pnl[-1] + (5 if i % 3 != 0 else -3))
 
     fig = px.line(x=dates, y=cumulative_pnl, title="Cumulative Profit/Loss")
     fig.update_layout(xaxis_title="Date", yaxis_title="P&L (units)")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch', key='historical_pnl_chart')
 
     # Performance by market
     st.subheader("Performance by Market")
@@ -258,7 +258,7 @@ def render_historical_tab():
     df = pd.DataFrame(market_performance)
 
     fig = px.bar(df, x='Market', y='ROI %', title="ROI by Market Type")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch', key='historical_roi_by_market')
 
 
 def render_config_tab():

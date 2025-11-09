@@ -29,7 +29,7 @@ class Match(Base):
     status = Column(String(50))  # scheduled, live, finished, postponed
     home_score = Column(Integer)
     away_score = Column(Integer)
-    metadata = Column(JSON)  # Additional match info
+    match_metadata = Column(JSON)  # Additional match info (renamed from 'metadata' to avoid SQLAlchemy conflict)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
